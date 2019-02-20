@@ -12,6 +12,9 @@ float menu4(float);
 
 int main()
 {
+	int loop = 0;
+	int menu;
+	
 	while (loop == 0)
 	{
 		printf("What would you like to do? \n \n");
