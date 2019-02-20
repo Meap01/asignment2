@@ -5,7 +5,9 @@ Program by Daniel Krasovski.
 #include <stdio.h>
 #include <stdlib.h>
 
-float menu1(float);
+#define SIZE 4
+
+int* menu1(int *);
 float menu2(float);
 float menu3(float);
 float menu4(float);
@@ -14,6 +16,8 @@ int main()
 {
 	int loop = 0;
 	int menu;
+	int pin_entered[SIZE];
+	*pin_entered = malloc(SIZE);
 	
 	while (loop == 0)
 	{
@@ -28,6 +32,12 @@ int main()
 
 		if (menu == 1)
 		{
+        int* ptr = menu1(pin_entered);
+        for (int i = 0; i < SIZE; i++)
+        {
+        	printf("%d \n", *ptr+i);
+        }
+        
 			
         }
 
@@ -55,32 +65,14 @@ int main()
 	}
 }
 
-float menu1()
+int* menu1(int *pin_entered)
 {
-	
-	
+	printf("enter 4 seperate numbers \n");
+	for (int i = 0; i < SIZE; i++)
+	{
+		scanf("%d", pin_entered+i);
+	}
+
+	return pin_entered;
 }
 
-float menu2()
-{
-	
-	
-}
-
-float menu3()
-{
-	
-	
-}
-
-float menu4()
-{
-	
-	
-}
-
-float menu5()
-{
-	
-	
-}
