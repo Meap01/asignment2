@@ -21,7 +21,7 @@ int main()
 	
 	while (loop == 0)
 	{
-		printf("What would you like to do? \n \n");
+		printf("\nWhat would you like to do? \n \n");
 		printf("1. Enter code \n");
 		printf("2. Encrypt and verify \n");
 		printf("3. Decrypt code \n");
@@ -32,13 +32,13 @@ int main()
 
 		if (menu == 1)
 		{
-        int* ptr = menu1(pin_entered);
-        for (int i = 0; i < SIZE; i++)
-        {
-        	printf("%d \n", *ptr+i);
-        }
-        
-			
+		    
+            int* ptr = menu1(pin_entered);
+            
+            for (int i = 0; i < SIZE; i++)
+            {
+            	printf("%d ", *ptr+i); 
+            }
         }
 
 		if (menu == 2)
@@ -70,7 +70,7 @@ int* menu1(int *pin_entered)
 	printf("enter 4 seperate numbers \n");
 	for (int i = 0; i < SIZE; i++)
 	{
-		scanf("%d", pin_entered+i);
+		scanf("%[^0-9]%d", pin_entered+i); // stops the code from crashing if user enters a float number or character.
 	}
 
 	return pin_entered;
