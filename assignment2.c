@@ -1,5 +1,6 @@
 /* 
 Program by Daniel Krasovski.
+date: 24/02/2019
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,16 +16,18 @@ int encrypted_code[SIZE];
 int pin_entered[SIZE];
 int access_code[SIZE] = {4,5,2,3};
 
+
 int fail1 = 0;
+int option_fail1 = 0;
+int option_fail2 = 0;
 
 int main()
 {
 	int loop = 0;
-	int menu;
-  int correct = 0;
-  int incorrect = 0;
-  int option_fail1 = 0;
-  int option_fail2 = 0;
+	float menu = 0;
+	int correct = 0;
+	int incorrect = 0;
+
   
 
 	while (loop == 0)
@@ -36,72 +39,73 @@ int main()
 		printf("4. Times code has been entered correctly and incorrectly\n");
 		printf("5. Exit program \n");
 
-		scanf("%d", &menu);
+		scanf("%f",&menu);
 
 		if (menu == 1)
 		{
-      int* ptr = menu1(pin_entered);
-      if (fail1 != 1)
-      {
-        option_fail1 = 1;
-        printf("the code entered is: \n");
-        for (int i = 0; i < SIZE; i++)
-        {
-       	  printf("%d ", *(ptr+i)); 
-        }
-      }    
-
-    }
+			int* ptr = menu1(pin_entered);
+			if (fail1 != 1)
+			{
+				option_fail1 = 1;   // allows user to go into 2nd option
+				printf("the code entered is: \n");
+				
+				for (int i = 0; i < SIZE; i++)
+				{
+					printf("%d ", *(ptr+i)); 
+				}
+			}    
+		}
 
 		if (menu == 2)
 		{ 
-      if( option_fail1 != 1)
-      {
-        printf("you must do option 1 first");
-        main();
-        
-      }
-      int ret;
-      ret = menu2(pin_entered);
-      option_fail2 = 1;
-      if (ret == 0)
-      {
-        printf("the code entered is Correct and encrypted");
-        correct++;
-      }
-      else
-      {
-        printf("Wrong Code entered but it has been encrypted");
-        incorrect++;
-      }
-
+			if( option_fail1 != 1)
+			{
+				printf("you must do option 1 first");
+				main();  //goes back to the main menu.
+				
+			}
+			int ret;
+			ret = menu2(pin_entered);  //checks if pin entered is the same as one stored
+			option_fail2 = 1;
+			if (ret == 0)
+			{
+				printf("the code entered is Correct and has beenencrypted");
+				correct++;
+			}
+			else
+			{
+				printf("Wrong Code entered but it has been encrypted");
+				incorrect++;
+			}
+		  option_fail1 = 0;  // stops the user from going back straight into option 2,
 		}
-		
+				
 		if (menu == 3)
 		{
-      if( option_fail2 != 1)
-      {
-        printf("you must do option 2 first");
-        main();
-      }
-      int* ptr = menu3(encrypted_code);
-      printf("the decrypted code is: "); 
-      for (int i = 0; i < SIZE; i++)
-      {
-       	printf("%d ", *(ptr+i)); 
-      }
-
+			if( option_fail2 != 1)
+			{
+				printf("you must do option 2 first"); 
+				main();
+			}
+			int* ptr = menu3(encrypted_code); //decrypts the code and prints it
+			printf("the decrypted code is: "); 
+			for (int i = 0; i < SIZE; i++)
+			{
+				printf("%d ", *(ptr+i)); 
+			}
+    option_fail2 = 0; //stops the user from going back into option 3
 		}
 
 		if (menu == 4)
 		{
-      printf("the code has been entered %d times correctly and %d times incorrectly \n",correct, incorrect);
+			printf("the code has been entered %d times correctly and %d times incorrectly \n",correct, incorrect);
 		}
 
 		if (menu == 5)
 		{
 			printf("The program is now closing");
 			loop = 1;
+      break;
 		}
 
 	}
@@ -109,7 +113,7 @@ int main()
 
 int* menu1(int *pin_entered)
 {
-	char str[100];
+	
   int i = 0;
 	printf("enter 4 seperate numbers \n");
 
@@ -117,31 +121,32 @@ int* menu1(int *pin_entered)
 	{
 		char term;
 		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
-    {
+		{
 			printf("failure, enter a intiger number,\nTry Again\n"); 
-      fail1 = 1;
-			menu1(pin_entered);
-    }
-    if(pin_entered[i] >= 10)
-    {
-      printf("failure, enter a number less than 10\n");
-      i-=1;
-    }
-    i++;
+			fail1 = 1; //stops the programming from printing the numbers entered
+			break;
+		}
+		
+		if(pin_entered[i] >= 10)
+		{
+			printf("failure, enter a number less than 10\n");
+			i-=1;
+		}
+		i++;
 	}
-
+	fail1 = 0;
 	return pin_entered;
 }
 
 int menu2(int *pin_entered)
 {
 	
-	*(encrypted_code+0) = *(pin_entered+2);
+	*(encrypted_code+0) = *(pin_entered+2);  // swaps the numbers around for the encryption
 	*(encrypted_code+1) = *(pin_entered+3);
 	*(encrypted_code+2) = *(pin_entered+0);
 	*(encrypted_code+3) = *(pin_entered+1);
   
-	for(int i = 0; i < SIZE; i++)
+	for(int i = 0; i < SIZE; i++)  //encryption algorithm
 	{	
 		*(encrypted_code+i) +=1;
 		if (*encrypted_code+i == 10)
@@ -151,9 +156,9 @@ int menu2(int *pin_entered)
 	}
   
 	printf("\n");
-
-  int ret;
-  ret = memcmp(encrypted_code, access_code,sizeof(access_code));
+	
+	int ret;
+	ret = memcmp(encrypted_code, access_code,sizeof(access_code)); // compares the the encrypted pin with the stored pin
 	return ret;
 	
 }
@@ -165,7 +170,7 @@ int* menu3(int *encrypted_code)
 	*(pin_entered+2) = *(encrypted_code+0);
 	*(pin_entered+3) = *(encrypted_code+1);
 
-  for(int i = 0; i < SIZE; i++)
+  for(int i = 0; i < SIZE; i++)  //decryption algorithm
 	{	
 		*(pin_entered+i) -=1;
 		if (*pin_entered+i == -1)
