@@ -12,12 +12,15 @@ int* menu2(int *);
 float menu3(float);
 float menu4(float);
 
+int encrypted_code[SIZE] = {0, 0, 0, 0};
+int pin_entered[SIZE];
+
 int main()
 {
 	int loop = 0;
 	int menu;
-	int pin_entered[SIZE];
-	*pin_entered = malloc(SIZE);
+	
+
 	
 	while (loop == 0)
 	{
@@ -32,21 +35,21 @@ int main()
 
 		if (menu == 1)
 		{
-            int* ptr = menu1(pin_entered);
-            
-            for (int i = 0; i < SIZE; i++)
-            {
-            	printf("%d ", *ptr+i); 
-            }
-        }
+      int* ptr = menu1(pin_entered);
+          
+      for (int i = 0; i < SIZE; i++)
+      {
+       	printf("%d ", *ptr+i); 
+      }
+    }
 
 		if (menu == 2)
 		{
 			int* ptr = menu2(pin_entered);
 			for (int i = 0; i < SIZE; i++)
-            {
-            	printf("%d ", *ptr+i); 
-            }
+      {
+       	printf("%d ", *ptr+i); 
+      }
 			
 			
 		}
@@ -73,10 +76,23 @@ int main()
 int* menu1(int *pin_entered)
 {
 	char str[100];
+  int i = 0;
 	printf("enter 4 seperate numbers \n");
-	for (int i = 0; i < SIZE; i++)
+
+	while(i != SIZE)
 	{
-		scanf("%[^0-9]%d",str, pin_entered+i); // stops the code from crashing if user enters a float number or character.
+		char term;
+		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
+    {
+			printf("failure, enter a intiger number\n"); 
+			i-=2;
+    }
+    if(pin_entered[i] >= 10)
+    {
+      printf("failure, enter a number less than 10\n");
+      i-=2;
+    }
+    i++;
 	}
 
 	return pin_entered;
@@ -84,26 +100,22 @@ int* menu1(int *pin_entered)
 
 int* menu2(int *pin_entered)
 {
-	extern int encrypted_code[SIZE];
-	*encrypted_code = malloc(SIZE);
 	
+	*(encrypted_code+0) = *pin_entered+2;
 	*(encrypted_code+1) = *pin_entered+3;
-	*(encrypted_code+2) = *pin_entered+4;
-	*(encrypted_code+3) = *pin_entered+1;
-	*(encrypted_code+4) = *pin_entered+2;
+	*(encrypted_code+2) = *pin_entered+0;
+	*(encrypted_code+4) = *pin_entered+1;
+	
 	for(int i = 0; i < SIZE; i++)
 	{	
-		*(encrypted_code+i) = *(encrypted_code+i) + 1;
+		*(encrypted_code+i) +=1;
 		if (*encrypted_code+i == 10)
 		{
 			*(encrypted_code+i) = 0;
 		}
 	}
+	printf("\n");
 	return encrypted_code;
 	
-	
-	
-	
 }
-
 
