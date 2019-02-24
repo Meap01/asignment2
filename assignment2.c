@@ -1,5 +1,4 @@
 /* 
-
 Program by Daniel Krasovski.
 */
 #include <stdio.h>
@@ -9,7 +8,7 @@ Program by Daniel Krasovski.
 #define SIZE 4
 
 int* menu1(int *);
-int* menu2(int *);
+int menu2(int *);
 int* menu3(int *);
 float menu4(float);
 
@@ -49,6 +48,7 @@ int main()
 		{ 
       int ret;
       ret = menu2(pin_entered);
+
       if (ret == 0)
       {
         printf("Correct Code entered");
@@ -58,8 +58,6 @@ int main()
         printf("Wrong Code entered");
       }
 
-			
-			
 		}
 		
 		if (menu == 3)
@@ -112,7 +110,7 @@ int* menu1(int *pin_entered)
 	return pin_entered;
 }
 
-int* menu2(int *pin_entered)
+int menu2(int *pin_entered)
 {
 	
 	*(encrypted_code+0) = *(pin_entered+2);
