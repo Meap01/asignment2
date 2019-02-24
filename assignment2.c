@@ -10,11 +10,11 @@ Program by Daniel Krasovski.
 int* menu1(int *);
 int menu2(int *);
 int* menu3(int *);
-float menu4(float);
 
 int encrypted_code[SIZE];
 int pin_entered[SIZE];
 int access_code[SIZE] = {4,5,2,3};
+
 int fail1 = 0;
 
 int main()
@@ -23,6 +23,9 @@ int main()
 	int menu;
   int correct = 0;
   int incorrect = 0;
+  int option_fail1 = 0;
+  int option_fail2 = 0;
+  
 
 	while (loop == 0)
 	{
@@ -40,6 +43,8 @@ int main()
       int* ptr = menu1(pin_entered);
       if (fail1 != 1)
       {
+        option_fail1 = 1;
+        printf("the code entered is: \n");
         for (int i = 0; i < SIZE; i++)
         {
        	  printf("%d ", *(ptr+i)); 
@@ -50,9 +55,15 @@ int main()
 
 		if (menu == 2)
 		{ 
+      if( option_fail1 != 1)
+      {
+        printf("you must do option 1 first");
+        main();
+        
+      }
       int ret;
       ret = menu2(pin_entered);
-
+      option_fail2 = 1;
       if (ret == 0)
       {
         printf("the code entered is Correct and encrypted");
@@ -68,6 +79,11 @@ int main()
 		
 		if (menu == 3)
 		{
+      if( option_fail2 != 1)
+      {
+        printf("you must do option 2 first");
+        main();
+      }
       int* ptr = menu3(encrypted_code);
       printf("the decrypted code is: "); 
       for (int i = 0; i < SIZE; i++)
@@ -102,9 +118,9 @@ int* menu1(int *pin_entered)
 		char term;
 		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
     {
-			printf("failure, enter a intiger number,\nreturning to main menu \n"); 
+			printf("failure, enter a intiger number,\nTry Again\n"); 
       fail1 = 1;
-			break;
+			menu1(pin_entered);
     }
     if(pin_entered[i] >= 10)
     {
