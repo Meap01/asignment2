@@ -4,16 +4,18 @@ Program by Daniel Krasovski.
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define SIZE 4
 
 int* menu1(int *);
 int* menu2(int *);
-float menu3(float);
+int* menu3(int *);
 float menu4(float);
 
-int encrypted_code[SIZE] = {0, 0, 0, 0};
+int encrypted_code[SIZE];
 int pin_entered[SIZE];
+int access_code[SIZE] = {4,5,2,3};
 
 int main()
 {
@@ -39,23 +41,35 @@ int main()
           
       for (int i = 0; i < SIZE; i++)
       {
-       	printf("%d ", *ptr+i); 
+       	printf("%d ", *(ptr+i)); 
       }
     }
 
 		if (menu == 2)
-		{
-			int* ptr = menu2(pin_entered);
-			for (int i = 0; i < SIZE; i++)
+		{ 
+      int ret;
+      ret = menu2(pin_entered);
+      if (ret == 0)
       {
-       	printf("%d ", *ptr+i); 
+        printf("Correct Code entered");
       }
+      else
+      {
+        printf("Wrong Code entered");
+      }
+
 			
 			
 		}
 		
 		if (menu == 3)
 		{
+      int* ptr = menu3(encrypted_code);
+          
+      for (int i = 0; i < SIZE; i++)
+      {
+       	printf("%d ", *(ptr+i)); 
+      }
 
 		}
 
@@ -85,12 +99,12 @@ int* menu1(int *pin_entered)
 		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
     {
 			printf("failure, enter a intiger number\n"); 
-			i-=2;
+			i-=1;
     }
     if(pin_entered[i] >= 10)
     {
       printf("failure, enter a number less than 10\n");
-      i-=2;
+      i-=1;
     }
     i++;
 	}
@@ -101,11 +115,11 @@ int* menu1(int *pin_entered)
 int* menu2(int *pin_entered)
 {
 	
-	*(encrypted_code+0) = *pin_entered+2;
-	*(encrypted_code+1) = *pin_entered+3;
-	*(encrypted_code+2) = *pin_entered+0;
-	*(encrypted_code+4) = *pin_entered+1;
-	
+	*(encrypted_code+0) = *(pin_entered+2);
+	*(encrypted_code+1) = *(pin_entered+3);
+	*(encrypted_code+2) = *(pin_entered+0);
+	*(encrypted_code+3) = *(pin_entered+1);
+  
 	for(int i = 0; i < SIZE; i++)
 	{	
 		*(encrypted_code+i) +=1;
@@ -114,8 +128,29 @@ int* menu2(int *pin_entered)
 			*(encrypted_code+i) = 0;
 		}
 	}
+  
 	printf("\n");
-	return encrypted_code;
+
+  int ret;
+  ret = memcmp(encrypted_code, access_code,sizeof(access_code));
+	return ret;
 	
 }
 
+int* menu3(int *encrypted_code)
+{
+	*(pin_entered+0) = *(encrypted_code+2);
+	*(pin_entered+1) = *(encrypted_code+3);
+	*(pin_entered+2) = *(encrypted_code+0);
+	*(pin_entered+3) = *(encrypted_code+1);
+
+  for(int i = 0; i < SIZE; i++)
+	{	
+		*(pin_entered+i) -=1;
+		if (*pin_entered+i == -1)
+		{
+			*(pin_entered+i) = 9;
+		}
+	}
+  return pin_entered;
+}
