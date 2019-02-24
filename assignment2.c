@@ -15,14 +15,15 @@ float menu4(float);
 int encrypted_code[SIZE];
 int pin_entered[SIZE];
 int access_code[SIZE] = {4,5,2,3};
+int fail1 = 0;
 
 int main()
 {
 	int loop = 0;
 	int menu;
-	
+  int correct = 0;
+  int incorrect = 0;
 
-	
 	while (loop == 0)
 	{
 		printf("\nWhat would you like to do? \n \n");
@@ -37,11 +38,14 @@ int main()
 		if (menu == 1)
 		{
       int* ptr = menu1(pin_entered);
-          
-      for (int i = 0; i < SIZE; i++)
+      if (fail1 != 1)
       {
-       	printf("%d ", *(ptr+i)); 
-      }
+        for (int i = 0; i < SIZE; i++)
+        {
+       	  printf("%d ", *(ptr+i)); 
+        }
+      }    
+
     }
 
 		if (menu == 2)
@@ -51,11 +55,13 @@ int main()
 
       if (ret == 0)
       {
-        printf("Correct Code entered");
+        printf("the code entered is Correct and encrypted");
+        correct++;
       }
       else
       {
-        printf("Wrong Code entered");
+        printf("Wrong Code entered but it has been encrypted");
+        incorrect++;
       }
 
 		}
@@ -63,7 +69,7 @@ int main()
 		if (menu == 3)
 		{
       int* ptr = menu3(encrypted_code);
-          
+      printf("the decrypted code is: "); 
       for (int i = 0; i < SIZE; i++)
       {
        	printf("%d ", *(ptr+i)); 
@@ -73,7 +79,7 @@ int main()
 
 		if (menu == 4)
 		{
-
+      printf("the code has been entered %d times correctly and %d times incorrectly \n",correct, incorrect);
 		}
 
 		if (menu == 5)
@@ -96,8 +102,9 @@ int* menu1(int *pin_entered)
 		char term;
 		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
     {
-			printf("failure, enter a intiger number\n"); 
-			i-=1;
+			printf("failure, enter a intiger number,\nreturning to main menu \n"); 
+      fail1 = 1;
+			break;
     }
     if(pin_entered[i] >= 10)
     {
