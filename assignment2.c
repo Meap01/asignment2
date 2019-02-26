@@ -18,15 +18,17 @@ int access_code[SIZE] = {4,5,2,3};
 
 
 int fail1 = 0;
-int option_fail1 = 0;
-int option_fail2 = 0;
+int option_fail1 = 0;  //stops the user from going back into option 2
+int option_fail2 = 0; //stops the user from going back into option 3
+int option_fail3 = 0; //stops the user going into option 4, if the code hasnt been encrypted
+int correct = 0;
+int incorrect = 0;
 
 int main()
 {
 	int loop = 0;
 	float menu = 0;
-	int correct = 0;
-	int incorrect = 0;
+
 
   
 
@@ -54,6 +56,7 @@ int main()
 					printf("%d ", *(ptr+i)); 
 				}
 			}    
+      option_fail3 = 0; // stops person from option 4, until they encrypt code
 		}
 
 		if (menu == 2)
@@ -69,14 +72,19 @@ int main()
 			option_fail2 = 1;
 			if (ret == 0)
 			{
-				printf("the code entered is Correct and has beenencrypted");
+				printf("the code entered is Correct and has been encrypted \n");
 				correct++;
 			}
 			else
 			{
-				printf("Wrong Code entered but it has been encrypted");
+				printf("Wrong Code entered but it has been encrypted \n");
 				incorrect++;
 			}
+      printf("The Encrypted code is: \n");
+      for( int i = 0; i <SIZE; i++)
+      {
+        printf("%d",*(encrypted_code+i));
+      }
 		  option_fail1 = 0;  // stops the user from going back straight into option 2,
 		}
 				
@@ -98,7 +106,13 @@ int main()
 
 		if (menu == 4)
 		{
+      if( option_fail3 == 1)
+			{
+				printf("you must encrypt the code first"); 
+				main();
+      }
 			printf("the code has been entered %d times correctly and %d times incorrectly \n",correct, incorrect);
+      option_fail2 = 1;
 		}
 
 		if (menu == 5)
@@ -172,7 +186,7 @@ int* menu3(int *encrypted_code)
 
   for(int i = 0; i < SIZE; i++)  //decryption algorithm
 	{	
-		*(pin_entered+i) -=1;
+		*(pin_entered+i) -= 1;
 		if (*pin_entered+i == -1)
 		{
 			*(pin_entered+i) = 9;
