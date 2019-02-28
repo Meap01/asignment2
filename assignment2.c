@@ -21,16 +21,15 @@ int fail1 = 0;
 int option_fail1 = 0;  //stops the user from going back into option 2
 int option_fail2 = 0; //stops the user from going back into option 3
 int option_fail3 = 0; //stops the user going into option 4, if the code hasnt been encrypted
-int correct = 0;
-int incorrect = 0;
+int correct = 0; //counts times code was enetered correctly
+int incorrect = 0; // counts times code was entered incorrectly
+
 
 int main()
 {
-	int loop = 0;
+	
 	float menu = 0;
-
-
-  
+  int loop = 0;
 
 	while (loop == 0)
 	{
@@ -138,12 +137,17 @@ int* menu1(int *pin_entered)
 		{
 			printf("failure, enter a intiger number,\nTry Again\n"); 
 			fail1 = 1; //stops the programming from printing the numbers entered
-			break;
+			main();
 		}
 		
 		if(pin_entered[i] >= 10)
 		{
 			printf("failure, enter a number less than 10\n");
+			i-=1;
+		}
+    if(pin_entered[i] < 0)
+		{
+			printf("failure, enter a greater than -1\n");
 			i-=1;
 		}
 		i++;
@@ -159,14 +163,16 @@ int menu2(int *pin_entered)
 	*(encrypted_code+1) = *(pin_entered+3);
 	*(encrypted_code+2) = *(pin_entered+0);
 	*(encrypted_code+3) = *(pin_entered+1);
-  
+
 	for(int i = 0; i < SIZE; i++)  //encryption algorithm
 	{	
 		*(encrypted_code+i) +=1;
-		if (*encrypted_code+i == 10)
+
+		if (*(encrypted_code+i) == 10)
 		{
 			*(encrypted_code+i) = 0;
 		}
+
 	}
   
 	printf("\n");
@@ -187,7 +193,7 @@ int* menu3(int *encrypted_code)
   for(int i = 0; i < SIZE; i++)  //decryption algorithm
 	{	
 		*(pin_entered+i) -= 1;
-		if (*pin_entered+i == -1)
+		if (*(pin_entered+i) == -1)
 		{
 			*(pin_entered+i) = 9;
 		}
