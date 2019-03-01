@@ -109,7 +109,7 @@ int main()
 int* menu1(int *pin_entered)
 {
 	
-  int i = 0;
+	int i = 0;
 	printf("enter 4 seperate numbers \n");
 
 	while(i != SIZE)
@@ -178,7 +178,7 @@ int menu2(int *pin_entered)
 	{
 		printf("%d",*(encrypted_code+i));
 	}
-  printf("\n");
+	printf("\n");
 	int ret;
 	ret = memcmp(encrypted_code, access_code,sizeof(access_code)); // compares the the encrypted pin with the stored pin
   	
@@ -193,7 +193,6 @@ int menu2(int *pin_entered)
 		incorrect++;
 	}
 	return ret;
-	
 }
 
 int* menu3(int *encrypted_code)
