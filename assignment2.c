@@ -23,8 +23,6 @@ int encrypted_code[SIZE];
 int pin_entered[SIZE];
 int access_code[SIZE] = {4,5,2,3};
 
-
-int fail1 = 0;
 int option_fail1 = 0;  //stops the user from going back into option 2
 int option_fail2 = 0; //stops the user from going back into option 3
 int option_fail3 = 0; //stops the user going into option 4, if the code hasnt been encrypted
@@ -118,7 +116,6 @@ int* menu1(int *pin_entered)
 		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
 		{
 			printf("failure, enter a intiger number,\nTry Again\n"); 
-			fail1 = 1; //stops the programming from printing the numbers entered
 			main();
 		}
 		
@@ -134,19 +131,16 @@ int* menu1(int *pin_entered)
 		}
 		i++;
 	}
-	fail1 = 0;
+
 	
-	if (fail1 != 1)
+	option_fail1 = 1;   // allows user to go into 2nd option
+	printf("the code entered is: \n");
+	
+	for (int i = 0; i < SIZE; i++)
 	{
-		option_fail1 = 1;   // allows user to go into 2nd option
-		printf("the code entered is: \n");
-		
-		for (int i = 0; i < SIZE; i++)
-		{
-			printf("%d ", *(pin_entered+i)); 
-      
-		}
-	}    
+		printf("%d ", *(pin_entered+i)); 
+     
+	}
 	return pin_entered;
 }
 
@@ -169,14 +163,12 @@ int menu2(int *pin_entered)
 		}
 
 	}
-  
-	printf("\n");
 	
-	printf("The Encrypted code is: \n");
+	printf("\nThe Encrypted code is: \n");
 	
 	for( int i = 0; i <SIZE; i++)
 	{
-		printf("%d",*(encrypted_code+i));
+		printf("%d ",*(encrypted_code+i));
 	}
 	printf("\n");
 	int ret;
@@ -204,6 +196,7 @@ int* menu3(int *encrypted_code)
 
   for(int i = 0; i < SIZE; i++)  //decryption algorithm
 	{	
+    *(encrypted_code+i) = 0; //overwrites encrypted code
 		*(pin_entered+i) -= 1;
 		if (*(pin_entered+i) == -1)
 		{
@@ -214,7 +207,7 @@ int* menu3(int *encrypted_code)
 	
 	for (int i = 0; i < SIZE; i++)
 	{
-		printf("%d ", *(pin_entered+i)); 
+		printf("%d ", *(pin_entered+i));  
 	}
   return pin_entered;
 }
