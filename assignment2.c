@@ -6,9 +6,7 @@ Program Description:
 
 Compile with: https://www.onlinegdb.com/ / https://repl.it/languages/c
 Does not compile with borland.
-
 */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,15 +24,13 @@ int access_code[SIZE] = {4,5,2,3};
 int option_fail1 = 0;  //stops the user from going back into option 2
 int option_fail2 = 0; //stops the user from going back into option 3
 int option_fail3 = 0; //stops the user going into option 4, if the code hasnt been encrypted
-int correct = 0; //counts times code was enetered correctly
+int correct = 0; //counts times code was entered correctly
 int incorrect = 0; // counts times code was entered incorrectly
-
 
 int main()
 {
-	
 	float menu = 0;
-  int loop = 0;
+	int loop = 0;
 
 	while (loop == 0)
 	{
@@ -58,8 +54,7 @@ int main()
 			if( option_fail1 != 1)
 			{
 				printf("you must do option 1 first");
-				main();  //goes back to the main menu.
-				
+				main();  //goes back to the main menu.	
 			}
 
 			menu2(pin_entered); // encrypts code and checks if it is correct.
@@ -78,7 +73,6 @@ int main()
 			}
 			
 			menu3(encrypted_code); //decrypts the code and prints it
-			
 			option_fail2 = 0; //stops the user from going back into option 3
 		}
 
@@ -89,9 +83,8 @@ int main()
 				printf("you must encrypt the code first"); 
 				main();
 			}
-			
+
 			printf("the code has been entered %d times correctly and %d times incorrectly \n",correct, incorrect);
-			
 		}
 
 		if (menu == 5)
@@ -100,13 +93,11 @@ int main()
 			loop = 1;
 			break;
 		}
-
 	}
 }
 
 int* menu1(int *pin_entered)
 {
-	
 	int i = 0;
 	printf("enter 4 seperate numbers \n");
 
@@ -116,9 +107,8 @@ int* menu1(int *pin_entered)
 		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
 		{
 			printf("failure, enter a intiger number,\nTry Again\n"); 
-			main();
+			return 0;
 		}
-		
 		if(pin_entered[i] >= 10)
 		{
 			printf("failure, enter a number less than 10\n");
@@ -132,21 +122,18 @@ int* menu1(int *pin_entered)
 		i++;
 	}
 
-	
 	option_fail1 = 1;   // allows user to go into 2nd option
 	printf("the code entered is: \n");
 	
 	for (int i = 0; i < SIZE; i++)
 	{
 		printf("%d ", *(pin_entered+i)); 
-     
 	}
 	return pin_entered;
 }
 
 int menu2(int *pin_entered)
 {
-	
 	*(encrypted_code+0) = *(pin_entered+2);  // swaps the numbers around for the encryption
 	*(encrypted_code+1) = *(pin_entered+3);
 	*(encrypted_code+2) = *(pin_entered+0);
@@ -161,7 +148,6 @@ int menu2(int *pin_entered)
 		{
 			*(encrypted_code+i) = 0;
 		}
-
 	}
 	
 	printf("\nThe Encrypted code is: \n");
