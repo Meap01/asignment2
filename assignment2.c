@@ -100,21 +100,23 @@ int* menu1(int *pin_entered)
 {
 	int i = 0;
 	printf("enter 4 seperate numbers \n");
-
+  int fail1 = 1; // stops the pin from printing if code runs into first error
+  float pin_enter1[SIZE];
 	while(i != SIZE)
 	{
 		char term;
-		if(scanf("%d%c", (pin_entered+i), &term) != 2 || term != '\n')
+    scanf("%f", (pin_enter1+i));
+		if(pin_enter1[i] != (int)pin_enter1[i])
 		{
-			printf("failure, enter a intiger number,\nTry Again\n"); 
-			return 0;
+			printf("failure, enter an integer number \n"); 
+			i-=1;
 		}
-		if(pin_entered[i] >= 10)
+		if(pin_enter1[i] >= 10)
 		{
 			printf("failure, enter a number less than 10\n");
 			i-=1;
 		}
-		if(pin_entered[i] < 0)
+		if(pin_enter1[i] < 0)
 		{
 			printf("failure, enter a greater than -1\n");
 			i-=1;
@@ -122,13 +124,14 @@ int* menu1(int *pin_entered)
 		i++;
 	}
 
-	option_fail1 = 1;   // allows user to go into 2nd option
-	printf("the code entered is: \n");
-	
-	for (int i = 0; i < SIZE; i++)
-	{
-		printf("%d ", *(pin_entered+i)); 
-	}
+	  option_fail1 = 1;   // allows user to go into 2nd option
+    printf("the code entered is: \n");
+    for (int i = 0; i < SIZE; i++)
+    {
+      *(pin_entered+i) = *(pin_enter1+i); 
+      printf("%d ", *(pin_entered+i)); 
+    }
+
 	return pin_entered;
 }
 
@@ -148,13 +151,6 @@ int menu2(int *pin_entered)
 		{
 			*(encrypted_code+i) = 0;
 		}
-	}
-	
-	printf("\nThe Encrypted code is: \n");
-	
-	for( int i = 0; i <SIZE; i++)
-	{
-		printf("%d ",*(encrypted_code+i));
 	}
 	printf("\n");
 	int ret;
