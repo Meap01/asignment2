@@ -100,12 +100,12 @@ int* menu1(int *pin_entered)
 {
 	int i = 0;
 	printf("enter 4 seperate numbers \n");
-  int fail1 = 1; // stops the pin from printing if code runs into first error
-  float pin_enter1[SIZE];
+	int fail1 = 1; // stops the pin from printing if code runs into first error
+	float pin_enter1[SIZE];
 	while(i != SIZE)
 	{
 		char term;
-    scanf("%f", (pin_enter1+i));
+		scanf("%f", (pin_enter1+i));
 		if(pin_enter1[i] != (int)pin_enter1[i])
 		{
 			printf("failure, enter an integer number \n"); 
@@ -124,12 +124,12 @@ int* menu1(int *pin_entered)
 		i++;
 	}
 
-	  option_fail1 = 1;   // allows user to go into 2nd option
-    printf("the code entered is: \n");
+	option_fail1 = 1;   // allows user to go into 2nd option
+	printf("the code entered is: \n");
     for (int i = 0; i < SIZE; i++)
     {
-      *(pin_entered+i) = *(pin_enter1+i); 
-      printf("%d ", *(pin_entered+i)); 
+		*(pin_entered+i) = *(pin_enter1+i); 
+		printf("%d ", *(pin_entered+i)); 
     }
 
 	return pin_entered;
@@ -144,7 +144,7 @@ int menu2(int *pin_entered)
 
 	for(int i = 0; i < SIZE; i++)  //encryption algorithm
 	{
-    *(pin_entered+i) = 0; // overwrites pin_entered to not store the unencrypted pin
+		*(pin_entered+i) = 0; // overwrites pin_entered to not store the unencrypted pin
 		*(encrypted_code+i) +=1;
 
 		if (*(encrypted_code+i) == 10)
@@ -178,7 +178,7 @@ int* menu3(int *encrypted_code)
 
   for(int i = 0; i < SIZE; i++)  //decryption algorithm
 	{	
-    *(encrypted_code+i) = 0; //overwrites encrypted code
+		*(encrypted_code+i) = 0; //overwrites encrypted code
 		*(pin_entered+i) -= 1;
 		if (*(pin_entered+i) == -1)
 		{
@@ -191,5 +191,5 @@ int* menu3(int *encrypted_code)
 	{
 		printf("%d ", *(pin_entered+i));  
 	}
-  return pin_entered;
+	return pin_entered;
 }
