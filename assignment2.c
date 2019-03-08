@@ -13,9 +13,9 @@ Does not compile with borland.
 
 #define SIZE 4
 
-int* menu1(int *);
-int menu2(int *);
-int* menu3(int *);
+void menu1(int *);
+void menu2(int *);
+void menu3(int *);
 
 int encrypted_code[SIZE];
 int pin_entered[SIZE];
@@ -47,7 +47,7 @@ int main()
 		{
 			menu1(pin_entered);
 			option_fail3 = 1; // stops person from option 4, until they encrypt code
-		}
+    }
 
 		if (menu == 2)
 		{ 
@@ -55,7 +55,7 @@ int main()
 			{
 				printf("you must do option 1 first");
 				main();  //goes back to the main menu.	
-			}
+		  }
 
 			menu2(pin_entered); // encrypts code and checks if it is correct.
 			
@@ -91,21 +91,21 @@ int main()
 		{
 			printf("The program is now closing");
 			loop = 1;
-			break;
+			
 		}
 	}
 }
 
-int* menu1(int *pin_entered)
+void menu1(int *pin_entered)
 {
 	int i = 0;
-	printf("enter 4 seperate numbers \n");
-	int fail1 = 1; // stops the pin from printing if code runs into first error
-	float pin_enter1[SIZE];
+	printf("Enter 4 seperate numbers \n");
+  int fail1 = 1; // stops the pin from printing if code runs into first error
+  float pin_enter1[SIZE];
 	while(i != SIZE)
 	{
 		char term;
-		scanf("%f", (pin_enter1+i));
+    scanf("%f", (pin_enter1+i));
 		if(pin_enter1[i] != (int)pin_enter1[i])
 		{
 			printf("failure, enter an integer number \n"); 
@@ -124,18 +124,17 @@ int* menu1(int *pin_entered)
 		i++;
 	}
 
-	option_fail1 = 1;   // allows user to go into 2nd option
-	printf("the code entered is: \n");
+	  option_fail1 = 1;   // allows user to go into 2nd option
+    printf("The code entered is: \n");
     for (int i = 0; i < SIZE; i++)
     {
-		*(pin_entered+i) = *(pin_enter1+i); 
-		printf("%d ", *(pin_entered+i)); 
+      *(pin_entered+i) = *(pin_enter1+i); 
+      printf("%d ", *(pin_entered+i)); 
     }
 
-	return pin_entered;
 }
 
-int menu2(int *pin_entered)
+void menu2(int *pin_entered)
 {
 	*(encrypted_code+0) = *(pin_entered+2);  // swaps the numbers around for the encryption
 	*(encrypted_code+1) = *(pin_entered+3);
@@ -144,7 +143,7 @@ int menu2(int *pin_entered)
 
 	for(int i = 0; i < SIZE; i++)  //encryption algorithm
 	{
-		*(pin_entered+i) = 0; // overwrites pin_entered to not store the unencrypted pin
+    *(pin_entered+i) = 0; // overwrites pin_entered to not store the unencrypted pin
 		*(encrypted_code+i) +=1;
 
 		if (*(encrypted_code+i) == 10)
@@ -166,10 +165,9 @@ int menu2(int *pin_entered)
 		printf("Wrong Code entered but it has been encrypted \n");
 		incorrect++;
 	}
-	return ret;
 }
 
-int* menu3(int *encrypted_code)
+void menu3(int *encrypted_code)
 {
 	*(pin_entered+0) = *(encrypted_code+2);
 	*(pin_entered+1) = *(encrypted_code+3);
@@ -178,7 +176,7 @@ int* menu3(int *encrypted_code)
 
   for(int i = 0; i < SIZE; i++)  //decryption algorithm
 	{	
-		*(encrypted_code+i) = 0; //overwrites encrypted code
+    *(encrypted_code+i) = 0; //overwrites encrypted code
 		*(pin_entered+i) -= 1;
 		if (*(pin_entered+i) == -1)
 		{
@@ -191,5 +189,4 @@ int* menu3(int *encrypted_code)
 	{
 		printf("%d ", *(pin_entered+i));  
 	}
-	return pin_entered;
 }
