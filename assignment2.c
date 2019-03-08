@@ -157,7 +157,7 @@ void menu2(int *pin_entered, int* encrypted_code)
 		printf("The code entered is Correct and has been encrypted \n");
 		correct++;
 	}
-	else //if pin entered is incorrect to the one  stored
+	else //if pin entered is incorrect to the one stored
 	{
 		printf("Wrong Code entered but it has been encrypted \n");
 		incorrect++;
