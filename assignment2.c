@@ -33,7 +33,7 @@ int main()
 	float menu = 0;
 	int loop = 0;
 
-	while (loop == 0)
+	while (loop != 1)
 	{
 		printf("\nWhat would you like to do? \n \n");
 		printf("1. Enter code \n");
@@ -55,7 +55,8 @@ int main()
 			if( option_fail1 != 1)
 			{
 				printf("you must do option 1 first");
-				main();  //goes back to the main menu.	
+				main();  //goes back to the main menu.
+                break;	
 			}
 
 			menu2(pin_entered, encrypted_code); // encrypts code and checks if it is correct.
@@ -71,6 +72,7 @@ int main()
 			{
 				printf("you must do option 2 first"); 
 				main();
+                break;
 			}
 			
 			menu3(encrypted_code, pin_entered); //decrypts the code and prints it
@@ -83,6 +85,7 @@ int main()
 			{
 				printf("you must encrypt the code first"); 
 				main();
+                break;
 			}
 
 			printf("the code has been entered %d times correctly and %d times incorrectly \n",correct, incorrect);
@@ -91,7 +94,9 @@ int main()
 		if (menu == 5)
 		{
 			printf("The program is now closing");
-			loop = 1;	
+			menu = 5;
+            loop = 1;
+            break;
 		}
 	}
 }
@@ -111,14 +116,9 @@ void menu1(int *pin_entered)
 			printf("failure, enter an integer number \n"); 
 			i-=1;
 		}
-		if(pin_enter1[i] >= 10)
+		if(pin_enter1[i] >= 10 || pin_enter1[i] < 0)
 		{
-			printf("failure, enter a number less than 10\n");
-			i-=1;
-		}
-		if(pin_enter1[i] < 0)
-		{
-			printf("failure, enter a greater than -1\n");
+			printf("failure, enter a number less than 10 and greater than 0\n");
 			i-=1;
 		}
 		i++;
