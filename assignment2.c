@@ -94,7 +94,6 @@ int main()
 		if (menu == 5)
 		{
 			printf("The program is now closing");
-			menu = 5;
             loop = 1;
             break;
 		}
