@@ -1,9 +1,7 @@
 /* 
 Program by Daniel Krasovski. C18357323
 date: 09/03/2019
-
 Program Description: The program encrypts a code, verify if the code is correct and then allows the user to decrypt the code and check how many times the code was entered correctly and incorrectly
-
 Compile with: https://www.onlinegdb.com/ / https://repl.it/languages/c
 */
 #include <stdio.h>
