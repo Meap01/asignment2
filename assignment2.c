@@ -51,7 +51,7 @@ int main()
 		{ 
 			if( option_fail1 != 1)
 			{
-				printf("you must do option 1 first");
+				printf("You must do option 1 first \n");
 				main();  //goes back to the main menu.
                 break;	
 			}
@@ -80,7 +80,7 @@ int main()
 		{
 			if( option_fail3 == 1)
 			{
-				printf("you must encrypt the code first"); 
+				printf("you must encrypt the code first \n"); 
 				main();
                 break;
 			}
@@ -100,7 +100,7 @@ int main()
 void menu1(int *pin_entered)
 {
 	int i = 0;
-	printf("Enter 4 seperate numbers \n");
+	printf("Enter 4 separate numbers \n");
 	int fail1 = 1; // stops the pin from printing if code runs into first error
 	float pin_enter1[SIZE];
 	while(i != SIZE)
@@ -109,12 +109,12 @@ void menu1(int *pin_entered)
 		scanf("%f", (pin_enter1+i));
 		if(pin_enter1[i] != (int)pin_enter1[i])
 		{
-			printf("failure, enter an integer number \n"); 
+			printf("failure, please enter an integer number \n"); 
 			i-=1;
 		}
 		if(pin_enter1[i] >= 10 || pin_enter1[i] < 0)
 		{
-			printf("failure, enter a number less than 10 and greater than 0\n");
+			printf("failure, please enter a number less than 10 and greater than 0\n");
 			i-=1;
 		}
 		i++;
@@ -177,7 +177,7 @@ void menu3(int *encrypted_code, int *pin_entered)
 			*(pin_entered+i) = 9;
 		}
 	}
-	printf("the decrypted code is: "); 
+	printf("the decrypted code is: \n"); 
 	
 	for (int i = 0; i < SIZE; i++)
 	{
